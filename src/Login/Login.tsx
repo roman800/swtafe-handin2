@@ -1,5 +1,4 @@
 import {
-  TextField,
   Container,
   Stack,
   FormControl,
@@ -9,16 +8,28 @@ import {
   Button,
 } from "@mui/material";
 import React, { useState } from "react";
+import HomePage from "../homepage/homepage";
+import useLocalStorage from "../hooks/localstorage";
+import userAPIService from "../services/user-api-service";
 
 export default function Login() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [jwtTESTTEST, setJWT] = useLocalStorage("jwt", undefined);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("username:" + username);
-    console.log("password" + password);
+    if (username && password) {
+      const { data } = await userAPIService.login({
+        email: username,
+        password: password,
+      });
+
+      setJWT(data.jwt);
+    }
   };
-  return (
+
+  const logInForm = (
     <Container maxWidth="sm">
       <Stack component="form" onSubmit={handleSubmit}>
         <FormControl>
@@ -45,4 +56,6 @@ export default function Login() {
       </Stack>
     </Container>
   );
+  console.log(jwtTESTTEST);
+  return jwtTESTTEST !== undefined ? <HomePage></HomePage> : logInForm;
 }

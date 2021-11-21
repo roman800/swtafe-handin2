@@ -1,16 +1,19 @@
-import React from 'react';
-import './App.css';
-import Login from './Login/Login';
-
-import { theme } from './Theme';
-import { ThemeProvider } from '@mui/material/styles';
+import "./App.css";
+import { theme } from "./Theme";
+import { ThemeProvider } from "@mui/material/styles";
+import Login from "./login/login";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 function App() {
   return (
-  <ThemeProvider theme={theme} >
-    <div className="App">
-      <Login></Login>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <Router>
+          <Routes>
+            <Route path="//*" element={<Login></Login>}></Route>
+          </Routes>
+        </Router>
+      </div>
     </ThemeProvider>
   );
 }
