@@ -10,7 +10,7 @@ import {
 import React, { useState } from "react";
 import HomePage from "../homepage/homepage";
 import useLocalStorage from "../hooks/localstorage";
-import userAPIService from "../services/user-api-service";
+import authenticationService from "../services/authentication-service";
 
 export default function Login() {
   const [username, setUsername] = useState<string>("");
@@ -20,12 +20,13 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (username && password) {
-      const { data } = await userAPIService.login({
+      // Fetch token
+      const { user, token } = await authenticationService.login({
         email: username,
         password: password,
       });
 
-      setJWT(data.jwt);
+      setJWT(token);
     }
   };
 

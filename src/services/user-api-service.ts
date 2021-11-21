@@ -1,21 +1,19 @@
 import axios from "axios";
+import { User } from "../models/user";
 
 class UserAPIService {
+  private endpoint!: string;
 
-    private endpoint!: string;
+  constructor() {
+    this.endpoint = process.env.REACT_APP_API_URL + "/api/Users";
+  }
 
-    constructor() {
-        this.endpoint = process.env.REACT_APP_API_URL + "/api/Users" 
-    }
-
-    login(credentials: {email: string, password: string}){
-        console.log(process.env)
-        return axios.post<{jwt: string}>(this.endpoint + '/login', credentials)
-    }
-
-
+  async getById(id: number): Promise<User> {
+    const userResponse = await axios.get<User>(this.endpoint + "/Users/" + id);
+    return userResponse.data;
+  }
 }
 
-const userAPIService = new UserAPIService()
+const userAPIService = new UserAPIService();
 
-export default userAPIService
+export default userAPIService;
