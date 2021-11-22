@@ -15,7 +15,7 @@ import authenticationService from "../services/authentication-service";
 export default function Login() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [jwtTESTTEST, setJWT] = useLocalStorage("jwt", undefined);
+  const [jwt, setJWT] = useLocalStorage("jwt", undefined);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,7 +25,7 @@ export default function Login() {
         email: username,
         password: password,
       });
-
+      console.log(user)
       setJWT(token);
     }
   };
@@ -57,6 +57,6 @@ export default function Login() {
       </Stack>
     </Container>
   );
-  console.log(jwtTESTTEST);
-  return jwtTESTTEST !== undefined ? <HomePage></HomePage> : logInForm;
+  console.log(jwt);
+  return jwt !== undefined   ? <HomePage></HomePage> : logInForm;
 }

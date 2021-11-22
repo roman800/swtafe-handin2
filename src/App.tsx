@@ -1,7 +1,7 @@
 import "./App.css";
 import { theme } from "./Theme";
 import { ThemeProvider } from "@mui/material/styles";
-import Login from "./login/login";
+import Login from "./Login/Login";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 function App() {

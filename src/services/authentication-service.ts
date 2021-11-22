@@ -1,7 +1,6 @@
 import axios from "axios";
 import { User } from "../models/user";
 import jwt_decode from "jwt-decode";
-
 class AuthenticationService {
   private endpoint!: string;
 
@@ -18,7 +17,7 @@ class AuthenticationService {
   async login(credentials: {
     email: string;
     password: string;
-  }): Promise<{ user: User; token: Token }> {
+  }): Promise<{ user: User; token: string }> {
     // Get token
     const tokenResponse = await axios.post<{ jwt: string }>(
       this.endpoint + "/login",
@@ -26,10 +25,13 @@ class AuthenticationService {
     );
 
     // Decode token
-    const decodedToken = jwt_decode<Token>(tokenResponse.data.jwt, {
-      header: true,
-    });
-
+    const decodedToken = jwt_decode<Token>(tokenResponse.data.jwt);
+    axios.interceptors.request.use(function (config: any) {
+      config.headers.Authorization = 'Bearer ' + tokenResponse.data.jwt;
+      return config;
+  }, function (error: any) {
+      return Promise.reject(error);
+  });
     // Get user
     const userResponse = await axios.get<User>(
       this.endpoint + "/" + decodedToken.UserId
@@ -37,7 +39,7 @@ class AuthenticationService {
 
     this.user = userResponse.data;
 
-    return { user: this.user, token: decodedToken };
+    return { user: this.user, token: tokenResponse.data.jwt };
   }
 }
 
