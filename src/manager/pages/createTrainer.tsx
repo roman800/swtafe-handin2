@@ -23,7 +23,10 @@ export default function CreateTrainer() {
       userContext?.user?.accountType === "Manager"
         ? "PersonalTrainer"
         : "Client";
-    setForm({ ...form, accountType: userType });
+    setForm((old) => {
+      return { ...old, accountType: userType };
+    });
+
     try {
       let response = await apiClient.usersPOST(form as User);
     } catch (error) {
@@ -79,7 +82,7 @@ export default function CreateTrainer() {
           <FormHelperText></FormHelperText>
         </FormControl>
         <Button variant="contained" type="submit">
-          Login
+          Create
         </Button>
       </Stack>
     </Container>
