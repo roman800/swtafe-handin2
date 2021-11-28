@@ -5,5 +5,7 @@ export interface User {
   email: string;
   password: string;
   personalTrainerId: number;
-  accountType: string;
+  accountType: UserAccountType;
 }
+
+export type UserAccountType = "PersonalTrainer" | "Client" | "Manager";

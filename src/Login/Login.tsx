@@ -25,7 +25,7 @@ export default function Login() {
         email: username,
         password: password,
       });
-      console.log(user)
+      console.log(user);
       setJWT(token);
     }
   };
@@ -58,5 +58,5 @@ export default function Login() {
     </Container>
   );
   console.log(jwt);
-  return jwt !== undefined   ? <HomePage></HomePage> : logInForm;
+  return jwt !== undefined ? <HomePage></HomePage> : logInForm;
 }

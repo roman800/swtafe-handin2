@@ -11,7 +11,9 @@ export default function useLocalStorage(key: string, initialValue: any) {
     }
   }, [key]);
   useEffect(() => {
-    window.localStorage.setItem(key, value);
+    if (!!value) {
+      window.localStorage.setItem(key, value);
+    }
   }, [key, value]);
   return [value, setValue];
 }

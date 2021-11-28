@@ -1,15 +1,25 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-
+import authenticationService from "../services/authentication-service";
+import { User, UserAccountType } from "../models/user";
+import ManagerHome from "../manager/managerhome";
+import ClientHome from "../client/clienthome";
+import TrianerHome from "../trainer/trainerhome";
+import { useEffect, useState } from "react";
 export default function HomePage() {
-  return (
-    <Routes>
-      <Route path="/" element={<p>Logged in as ass</p>}></Route>
-      <Route path="ass" element={<p>Ass</p>}>
-        <div>Ass router</div>
-      </Route>
-      <Route path="butt" element={<p>Butt</p>}>
-        <div>butt router</div>
-      </Route>
-    </Routes>
-  );
+  const [user, setUser] = useState<User | undefined>();
+
+  useEffect(() => {
+    async function run() {
+      const user = await authenticationService.currentUser;
+      setUser(user);
+    }
+    run();
+  }, []);
+
+  const homepageLUT: { [key in UserAccountType]: JSX.Element } = {
+    Manager: <ManagerHome></ManagerHome>,
+    Client: <ClientHome></ClientHome>,
+    PersonalTrainer: <TrianerHome></TrianerHome>,
+  };
+
+  return user ? homepageLUT[user.accountType] : <></>;
 }

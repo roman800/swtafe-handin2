@@ -2,48 +2,57 @@ import axios from "axios";
 import { User } from "../models/user";
 import jwt_decode from "jwt-decode";
 class AuthenticationService {
-  private endpoint!: string;
+  private endpoint: string = process.env.REACT_APP_API_URL + "/api/Users";
 
   private user?: User;
 
-  get currentUser(): User | undefined {
-    return this.user;
+  get currentUser(): Promise<User> | undefined {
+    if (!!this.user) {
+      return new Promise<User>(() => this.user);
+    } else {
+      const token = window.localStorage.getItem("jwt");
+      if (!token) {
+        return undefined;
+      } else {
+        return this.setUserFromToken(token);
+      }
+    }
   }
 
-  constructor() {
-    this.endpoint = process.env.REACT_APP_API_URL + "/api/Users";
-  }
+  constructor() {}
 
   async login(credentials: {
     email: string;
     password: string;
   }): Promise<{ user: User; token: string }> {
     // Get token
-    const tokenResponse = await axios.post<{ jwt: string }>(
+    const { data } = await axios.post<{ jwt: string }>(
       this.endpoint + "/login",
       credentials
     );
+    const token = data.jwt;
 
+    const user = await this.setUserFromToken(token);
+
+    return { user, token };
+  }
+
+  private async setUserFromToken(token: string): Promise<User> {
     // Decode token
-    const decodedToken = jwt_decode<Token>(tokenResponse.data.jwt);
+    const decodedToken = jwt_decode<Token>(token);
     axios.interceptors.request.use(function (config: any) {
-      config.headers.Authorization = 'Bearer ' + tokenResponse.data.jwt;
+      config.headers.Authorization = "Bearer " + token;
       return config;
-  }, function (error: any) {
-      return Promise.reject(error);
-  });
+    });
     // Get user
     const userResponse = await axios.get<User>(
       this.endpoint + "/" + decodedToken.UserId
     );
 
     this.user = userResponse.data;
-
-    return { user: this.user, token: tokenResponse.data.jwt };
+    return this.user;
   }
 }
-
-const authenticationService = new AuthenticationService();
 
 export interface Token {
   Name: string;
@@ -53,4 +62,4 @@ export interface Token {
   exp: number;
 }
 
-export default authenticationService;
+export default new AuthenticationService();
