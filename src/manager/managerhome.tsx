@@ -4,9 +4,15 @@ import PersonalTrainers from "./pages/personal-trainers";
 
 export default function ManagerHome() {
   return (
-    <Routes>
-      <Route path="/" element={<PersonalTrainers></PersonalTrainers>}></Route>
-      <Route path="/create" element={<CreateTrainer></CreateTrainer>}></Route>
-    </Routes>
+    <div>
+      <div>Navbar</div>
+      <Routes>
+        <Route
+          path="//*"
+          element={<PersonalTrainers></PersonalTrainers>}
+        ></Route>
+        <Route path="/create" element={<CreateTrainer></CreateTrainer>}></Route>
+      </Routes>
+    </div>
   );
 }
