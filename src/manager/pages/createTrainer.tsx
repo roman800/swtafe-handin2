@@ -8,15 +8,22 @@ import {
   Button,
 } from "@mui/material";
 import { useState } from "react";
+
 import { IUser, User } from "../../api/api";
+import { useAuth } from "../../auth/authProvider";
 import { apiClient } from "../../state/api-clients";
 
 export default function CreateTrainer() {
   const [form, setForm] = useState<IUser | undefined>(undefined);
+  const userContext = useAuth();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setForm({ ...form, accountType: "PersonalTrainer" });
+    let userType =
+      userContext?.user?.accountType === "Manager"
+        ? "PersonalTrainer"
+        : "Client";
+    setForm({ ...form, accountType: userType });
     try {
       let response = await apiClient.usersPOST(form as User);
     } catch (error) {
