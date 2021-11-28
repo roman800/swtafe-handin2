@@ -12,11 +12,11 @@ const initialState: UserState = {
   trainers: [],
 };
 
-const getClients = createAsyncThunk("clients/get", async () => {
+export const getClients = createAsyncThunk("clients/get", async () => {
   return await apiClient.clients();
 });
 
-const getUsers = createAsyncThunk("users/get", async () => {
+export const getUsers = createAsyncThunk("users/get", async () => {
   return await apiClient.usersAll();
 });
 
