@@ -5,12 +5,15 @@ import { AppState } from '../state/store';
 import { getPrograms } from '../state/workout-program/workout-program-slice';
 import { Card, CardContent, Container, Stack, Typography } from '@mui/material';
 import { WorkoutProgram } from '../api/api';
+import { useNavigate } from 'react-router';
 
 export default function WorkoutProgramList() {
 	const auth = useAuth();
 
 	const programs = useSelector((state: AppState) => state.programReducer.programs);
 	const dispatch = useDispatch();
+
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (auth?.user?.userId) dispatch(getPrograms(auth.user.userId));
@@ -29,7 +32,12 @@ export default function WorkoutProgramList() {
 
 	function programCard(program: WorkoutProgram): JSX.Element {
 		return (
-			<Card sx={{ maxWidth: 200 }} variant="outlined" key={program.workoutProgramId}>
+			<Card
+				sx={{ maxWidth: 200 }}
+				variant="outlined"
+				key={program.workoutProgramId}
+				onClick={() => navigate('/' + program.workoutProgramId)}
+			>
 				<CardContent>
 					<Typography variant="body1">{program.name}</Typography>
 				</CardContent>
