@@ -1,8 +1,10 @@
-import { Stack, Typography } from "@mui/material";
+import { Stack, Typography, Button } from "@mui/material";
 import { Link } from "react-router-dom";
-import { NavBarRoute } from "../trainer/trainerhome";
+import { useAuth } from "../auth/authProvider";
+import { NavBarRoute } from "./navRouter";
 
 export default function NavBar(props: { routes: NavBarRoute[] }) {
+  const userContext = useAuth();
   return (
     <Stack
       sx={{ bgcolor: "pink", marginBottom: "20px", padding: "10px" }}
@@ -31,6 +33,9 @@ export default function NavBar(props: { routes: NavBarRoute[] }) {
           </Link>
         );
       })}
+      <Button variant="contained" color="primary" onClick= {()=>{userContext?.logout()}}>
+        Log out
+      </Button>
     </Stack>
   );
 }

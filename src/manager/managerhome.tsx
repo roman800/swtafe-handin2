@@ -1,37 +1,29 @@
-import { AppBar, Container, Toolbar, Typography } from "@mui/material";
-import PersonalTrainers from "./pages/personal-trainers";
+
 import CreateTrainer from "./pages/createTrainer";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import NavBar from "../shared/navbar";
+import { NavBarRoute } from "../shared/navRouter";
+import PersonalTrainers from "./pages/personal-trainers";
 export default function ManagerHome() {
+  const trainerRoutes: NavBarRoute[] = [
+    {
+      label: "List",
+      route: "/",
+    },
+    {
+      label: "Create Trainer",
+      route: "/create",
+    },
+  ];
+  
   return (
     <div>
-      <Routes>
-        <Route path="/" element={<PersonalTrainers></PersonalTrainers>}></Route>
-        <Route path="/create" element={<CreateTrainer></CreateTrainer>}></Route>
-      </Routes>
-      <AppBar>
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
-            >
-              <Link to="/create">Create new Trainer</Link>
-            </Typography>
+    <NavBar routes={trainerRoutes} />
+    <Routes>
+      <Route path="/" element={<PersonalTrainers></PersonalTrainers>}></Route>
+      <Route path="/create" element={<CreateTrainer></CreateTrainer>}></Route>
 
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
-            >
-              <Link to="/">List</Link>
-            </Typography>
-          </Toolbar>
-        </Container>
-      </AppBar>
-    </div>
+    </Routes>
+  </div>
   );
 }
