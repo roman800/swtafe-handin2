@@ -1,8 +1,11 @@
-import { Container, Stack, Typography, Table, TableRow, TableCell } from '@mui/material';
-import { useEffect } from 'react';
+import { Container, Stack, Typography, Table, TableRow, TableCell, FormControl, FormLabel, Input, Button } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { Exercise } from '../api/api';
+import { Exercise, ExerciseDto, IExercise } from '../api/api';
+import { useAuth } from '../auth/authProvider';
+import { UserAccountType } from '../models/user';
+import { apiClient } from '../state/api-clients';
 import { AppState } from '../state/store';
 import { getProgram } from '../state/workout-program/workout-program-slice';
 
@@ -10,6 +13,7 @@ export default function ProgramDetails() {
 	const { id } = useParams();
 	const programState = useSelector((state: AppState) => state.programReducer);
 	const dispatch = useDispatch();
+	const context = useAuth();
 
 	useEffect(() => {
 		if (id) dispatch(getProgram(Number(id)));
@@ -63,9 +67,82 @@ export default function ProgramDetails() {
 							</TableRow>
 							{programState.program?.exercises?.map((exercise) => exerciseDisplay(exercise))}
 						</Table>
+						{context?.user?.accountType as UserAccountType === "PersonalTrainer" ?
+							<CreateExercise userId={context?.user?.userId} workoutId={programState.program?.workoutProgramId} /> : <></>}
 					</Stack>
 				</Container>
 			)}
 		</div>
 	);
+}
+
+function CreateExercise(props: { userId?: number, workoutId?: number }) {
+	const [exercise, setExercise] = useState<IExercise>({ name: "" })
+	const dispatch = useDispatch();
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
+		e.preventDefault();
+		const result = await apiClient.exercisesPOST({ ...exercise, personalTrainerId: props.userId, workoutProgramId: props.workoutId } as Exercise)
+		if (result.workoutProgramId) {
+			dispatch(getProgram(result.workoutProgramId))
+		}
+	}
+	return (
+		<Stack component="form" onSubmit={handleSubmit} direction="row" spacing="20">
+			<FormControl>
+				<FormLabel>Name:</FormLabel>
+				<Input
+					type="text"
+					value={exercise?.name}
+					onChange={(value) =>
+						setExercise({ ...exercise, name: value.target.value })
+					}
+				></Input>
+
+			</FormControl>
+			<FormControl>
+				<FormLabel>Description:</FormLabel>
+				<Input
+					type="text"
+					value={exercise?.description}
+					onChange={(value) =>
+						setExercise({ ...exercise, description: value.target.value })
+					}
+				></Input>
+			</FormControl>
+			<FormControl>
+				<FormLabel>Sets:</FormLabel>
+				<Input
+					type="number"
+					value={exercise?.sets}
+					onChange={(value) =>
+						setExercise({ ...exercise, sets: Number(value.target.value) })
+					}
+				></Input>
+			</FormControl>
+			<FormControl>
+				<FormLabel>Reps:</FormLabel>
+				<Input
+					type="number"
+					value={exercise?.repetitions}
+					onChange={(value) =>
+						setExercise({ ...exercise, repetitions: Number(value.target.value) })
+					}
+				></Input>
+			</FormControl>
+			<FormControl>
+				<FormLabel>Time:</FormLabel>
+				<Input
+					type="text"
+					value={exercise?.time}
+					onChange={(value) =>
+						setExercise({ ...exercise, time: value.target.value })
+					}
+				></Input>
+			</FormControl>
+			<Button variant="contained" type="submit">Create Exercise</Button>
+
+		</Stack>
+	)
+
 }

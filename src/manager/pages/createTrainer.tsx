@@ -4,7 +4,6 @@ import {
   FormControl,
   FormLabel,
   Input,
-  FormHelperText,
   Button,
 } from "@mui/material";
 import { useState } from "react";
@@ -50,7 +49,7 @@ export default function CreateUser() {
               setForm({ ...form, firstName: value.target.value })
             }
           ></Input>
-          <FormHelperText></FormHelperText>
+
         </FormControl>
         <FormControl>
           <FormLabel>Lastname</FormLabel>
@@ -61,7 +60,6 @@ export default function CreateUser() {
               setForm({ ...form, lastName: value.target.value })
             }
           ></Input>
-          <FormHelperText></FormHelperText>
         </FormControl>
         <FormControl>
           <FormLabel>Email</FormLabel>
@@ -72,7 +70,6 @@ export default function CreateUser() {
               setForm({ ...form, email: value.target.value })
             }
           ></Input>
-          <FormHelperText></FormHelperText>
         </FormControl>
         <FormControl>
           <FormLabel>Password</FormLabel>
@@ -83,7 +80,7 @@ export default function CreateUser() {
               setForm({ ...form, password: value.target.value })
             }
           ></Input>
-          <FormHelperText></FormHelperText>
+          <></>
         </FormControl>
         <Button variant="contained" type="submit">
           Create

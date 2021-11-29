@@ -5,7 +5,7 @@ import { AppState } from '../state/store';
 import { getPrograms } from '../state/workout-program/workout-program-slice';
 import { Card, CardContent, Container, Stack, Typography } from '@mui/material';
 import { WorkoutProgram } from '../api/api';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 export default function WorkoutProgramList() {
 	const auth = useAuth();
@@ -14,7 +14,7 @@ export default function WorkoutProgramList() {
 	const dispatch = useDispatch();
 
 	const navigate = useNavigate();
-	const { pathname } = useLocation();
+
 
 	useEffect(() => {
 		if (auth?.user?.userId) dispatch(getPrograms(auth.user.userId));
