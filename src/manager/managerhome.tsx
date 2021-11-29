@@ -15,15 +15,15 @@ export default function ManagerHome() {
       route: "/create",
     },
   ];
-  
+
   return (
     <div>
-    <NavBar routes={trainerRoutes} />
-    <Routes>
-      <Route path="/" element={<PersonalTrainers></PersonalTrainers>}></Route>
-      <Route path="/create" element={<CreateTrainer></CreateTrainer>}></Route>
+      <NavBar routes={trainerRoutes} />
+      <Routes>
+        <Route path="/" element={<PersonalTrainers></PersonalTrainers>}></Route>
+        <Route path="/create" element={<CreateTrainer></CreateTrainer>}></Route>
 
-    </Routes>
-  </div>
+      </Routes>
+    </div>
   );
 }
