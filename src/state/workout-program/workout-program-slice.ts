@@ -28,9 +28,9 @@ const programSlice = createSlice({
 	reducers: {},
 	extraReducers: (builder) => {
 		builder.addCase(getPrograms.fulfilled, (state, action) => {
-			const userId = action.meta.arg;
+			const userId = Number(action.meta.arg);
 			state.programs = action.payload.filter(
-				(program) => program.clientId == userId || program.personalTrainerId === userId
+				(program) => program.clientId === userId || program.personalTrainerId === userId
 			);
 		});
 		builder.addCase(getProgram.fulfilled, (state, action) => {
