@@ -11,28 +11,32 @@ import { useState } from "react";
 
 import { IUser, User } from "../../api/api";
 import { useAuth } from "../../auth/authProvider";
+import { UserAccountType } from "../../models/user";
 import { apiClient } from "../../state/api-clients";
 
-export default function CreateTrainer() {
-  const [form, setForm] = useState<IUser | undefined>(undefined);
+export default function CreateUser() {
   const userContext = useAuth();
+
+
+  const [form, setForm] = useState<IUser | undefined>({
+    accountType: getAccountType(),
+    personalTrainerId: getAccountType() === 'Client' ? userContext?.user?.userId : undefined
+  });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let userType =
-      userContext?.user?.accountType === "Manager"
-        ? "PersonalTrainer"
-        : "Client";
-    setForm((old) => {
-      return { ...old, accountType: userType };
-    });
-
     try {
-      let response = await apiClient.usersPOST(form as User);
+      await apiClient.usersPOST(form as User);
     } catch (error) {
       console.log(error);
     }
   };
+
+  function getAccountType(): UserAccountType {
+    return userContext?.user?.accountType === "Manager"
+      ? "PersonalTrainer"
+      : "Client";
+  }
 
   return (
     <Container maxWidth="sm">

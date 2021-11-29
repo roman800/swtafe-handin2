@@ -1,5 +1,5 @@
 
-import CreateTrainer from "./pages/createTrainer";
+import CreateUser from "./pages/createTrainer";
 import { Routes, Route } from "react-router-dom";
 import NavBar from "../shared/navbar";
 import { NavBarRoute } from "../shared/navRouter";
@@ -21,7 +21,7 @@ export default function ManagerHome() {
       <NavBar routes={trainerRoutes} />
       <Routes>
         <Route path="/" element={<PersonalTrainers></PersonalTrainers>}></Route>
-        <Route path="/create" element={<CreateTrainer></CreateTrainer>}></Route>
+        <Route path="/create" element={<CreateUser></CreateUser>}></Route>
 
       </Routes>
     </div>

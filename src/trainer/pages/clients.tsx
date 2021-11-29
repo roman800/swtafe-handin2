@@ -5,7 +5,7 @@ import { AppState } from "../../state/store";
 import { getClients } from "../../state/user/user-slice";
 import { Card, CardContent, Container, Stack, Typography } from "@mui/material";
 export default function Clients() {
-  const clients = useSelector((state: AppState) => state.userReducer.trainers);
+  const clients = useSelector((state: AppState) => state.userReducer.clients);
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -8,7 +8,6 @@ import { getProgram } from '../state/workout-program/workout-program-slice';
 
 export default function ProgramDetails() {
 	const { id } = useParams();
-
 	const programState = useSelector((state: AppState) => state.programReducer);
 	const dispatch = useDispatch();
 
