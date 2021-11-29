@@ -37,7 +37,7 @@ export default function WorkoutProgramList() {
 				sx={{ maxWidth: 200 }}
 				variant="outlined"
 				key={program.workoutProgramId}
-				onClick={() => navigate(pathname + program.workoutProgramId)}
+				onClick={() => navigate(`./${program.workoutProgramId}`)}
 			>
 				<CardContent>
 					<Typography variant="body1">{program.name}</Typography>
