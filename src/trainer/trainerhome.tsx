@@ -12,7 +12,7 @@ import CreateProgram from "./pages/createProgram";
 export default function TrainerHome() {
   const trainerRoutes: NavBarRoute[] = [
     {
-      label: "List",
+      label: "Client list",
       route: "/",
     },
     {
