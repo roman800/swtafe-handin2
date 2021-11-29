@@ -10,6 +10,7 @@ import { Login, User } from "../api/api";
 import { apiClient } from "../state/api-clients";
 import jwt_decode from "jwt-decode";
 import LoginForm from "../login/loginForm";
+import { useNavigate } from "react-router";
 
 interface IAuthContext {
   isAuthenticated: boolean;
@@ -26,6 +27,8 @@ export const AuthProvider: FC = ({ children }) => {
   const [user, setUser] = useState<User | undefined>(undefined);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
+  const navigate = useNavigate();
+
   const login = useCallback(async (email, password) => {
     const { jwt } = await apiClient.login({ email, password } as Login);
 
@@ -41,10 +44,11 @@ export const AuthProvider: FC = ({ children }) => {
     }
   }, []);
 
-  const logout = useCallback(async()=>{
+  const logout = useCallback(async () => {
     setIsAuthenticated(false);
     setUser(undefined);
-  }, []);
+    navigate('/');
+  }, [navigate]);
 
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");

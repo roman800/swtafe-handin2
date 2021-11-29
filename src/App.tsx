@@ -9,15 +9,15 @@ import { BrowserRouter } from "react-router-dom";
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <AuthProvider>
-        <Provider store={store}>
-          <div className="App">
-            <BrowserRouter>
+      <BrowserRouter>
+        <AuthProvider>
+          <Provider store={store}>
+            <div className="App">
               <HomePage></HomePage>
-            </BrowserRouter>
-          </div>
-        </Provider>
-      </AuthProvider>
+            </div>
+          </Provider>
+        </AuthProvider>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }
