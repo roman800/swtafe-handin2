@@ -10,8 +10,8 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
 
 const client = new ApolloClient({
-  uri: 'https://graphql.org/swapi-graphql/',
-  cache: new InMemoryCache()
+  uri: 'https://71z1g.sse.codesandbox.io/',
+  cache: new InMemoryCache(),
 });
 
 function App() {

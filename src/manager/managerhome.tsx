@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import NavBar from "../shared/navbar";
 import { NavBarRoute } from "../shared/navRouter";
 import PersonalTrainers from "./pages/personal-trainers";
+import Dogs from "../dogs/demo";
 export default function ManagerHome() {
   const trainerRoutes: NavBarRoute[] = [
     {
@@ -14,6 +15,10 @@ export default function ManagerHome() {
       label: "Create Trainer",
       route: "/create",
     },
+    {
+      label: "Dogs",
+      route: "/dogs",
+    },
   ];
 
   return (
@@ -22,6 +27,7 @@ export default function ManagerHome() {
       <Routes>
         <Route path="/" element={<PersonalTrainers></PersonalTrainers>}></Route>
         <Route path="/create" element={<CreateUser></CreateUser>}></Route>
+        <Route path="/dogs" element={<Dogs></Dogs>}></Route>
 
       </Routes>
     </div>
